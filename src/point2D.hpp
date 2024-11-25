@@ -2,11 +2,11 @@
 #define POINT2D_HPP
 
 template <typename T>
-class Point2D{
+class Point2D {
     public:
         Point2D(T x, T y) ;
         Point2D() ;
-        Point2D(Point2D<T> & p) ;
+        Point2D(const Point2D<T> & p) ;
         T getX() ;
         T getY() ;
         void setX(T x) ;
@@ -23,16 +23,16 @@ template <typename T>
 Point2D<T>::Point2D() : x(0), y(0) {}
 
 template <typename T>
-Point2D<T>::Point2D(Point2D<T> & p) : x(p.getX()), y(p.getY()) {}
+Point2D<T>::Point2D(const Point2D<T> & p) : x(p.x), y(p.y) {}
 
 template <typename T>
 T Point2D<T>::getX() {
-    return this->x;
+    return x;
 }
 
 template <typename T>
 T Point2D<T>::getY() {
-    return this->y;
+    return y;
 }
 
 template <typename T>
