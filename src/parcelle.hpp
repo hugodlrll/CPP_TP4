@@ -8,7 +8,7 @@
 using namespace std;
 class Parcelle {
     public:
-        Parcelle(int num, string prop, Polygone<int>forme) ; 
+        Parcelle(int num, string prop, Polygone<int> forme, int pConstruc) ; 
         Parcelle(const Parcelle & parc) ;
         int getNumero() ;
         std::string getProprietaire() ;
