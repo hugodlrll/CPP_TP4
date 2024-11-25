@@ -1,3 +1,14 @@
+/**
+ * @file ZAU.hpp
+ * @author DELARUELLE Hugo, DEPEYRIS Julien, DARGERE Lucas, LAVAUX Bastien
+ * @brief Définition de la classe ZAU
+ * @version 0.1
+ * @date 2024-11-25
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include "Constructible.hpp"
 
 #ifndef ZAU_HPP
