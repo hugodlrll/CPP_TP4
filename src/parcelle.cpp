@@ -1,29 +1,27 @@
 #include "parcelle.hpp"
 
-Parcelle::Parcelle(int num, string prop, Polygone<int,float> forme) : numero(num), proprietaire(prop), forme(forme) {}
+Parcelle::Parcelle(int num, string prop, Polygone<int> forme) : numero(num), proprietaire(prop), forme(forme) {}
 
-Parcelle::Parcelle(Parcelle & parc) : type(parc.getType()), numero(parc.getNumero()), surface(parc.getSurface()), proprietaire(parc.getProprietaire()), forme(parc.getForme()) {}       
-
-Parcelle::~Parcelle() {}
+Parcelle::Parcelle(const Parcelle & parc) : type(parc.type), numero(parc.numero), surface(parc.surface), proprietaire(parc.proprietaire), forme(parc.forme) {}       
 
 int Parcelle::getNumero(){
-    return this->numero ;
+    return numero ;
 }
 
 string Parcelle::getProprietaire(){
-    return this->proprietaire ;
+    return proprietaire ;
 }
 
 float Parcelle::getSurface(){
-    return this->surface ;
+    return surface ;
 }
 
-Polygone<int,float> Parcelle::getForme(){
-    return this->forme ;
+Polygone<int> & Parcelle::getForme(){ 
+    return forme ;
 }
 
 string Parcelle::getType(){
-    return this->type ;
+    return type ;
 }
 
 
@@ -37,4 +35,13 @@ void Parcelle::setProprietaire(string prop){
 
 void Parcelle::setForme(Polygone<int> forme){
     this->forme = forme ;
+}
+
+ostream& operator<<(ostream& os, Parcelle& p) {
+    os << "Parcelle n° " << p.getNumero() << " :" << endl;
+    os << "\tType : " << p.getType() << endl;
+    os << "\tPolygone : " << p.getForme() << endl;
+    os << "\tPropriétaire : " << p.getProprietaire() << endl;
+    os << "\tSurface : " << p.getSurface() << endl;
+    return os;
 }

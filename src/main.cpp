@@ -1,6 +1,21 @@
-#include "point2D.hpp"
-#include "polygone.hpp"
+#include "ZN.hpp"
+
+using namespace std;
 
 int main(void) {
+    vector<Point2D<int>> listeSommets;
+    Point2D<int> p1(1,1);
+    Point2D<int> p2(2,1);
+    Point2D<int> p3(2,2);
+    Point2D<int> p4(1,2);
+    listeSommets.push_back(p1);
+    listeSommets.push_back(p3);
+    listeSommets.push_back(p2);
+    listeSommets.push_back(p4);
+    Polygone<int> poly(listeSommets);
+    std::cout << poly << std::endl;
+    ZN zn(12, "Hugo", poly);
+    zn.setType("ZN");
+    std::cout << zn;
     return 0;
 }
