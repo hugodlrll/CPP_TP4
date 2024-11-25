@@ -108,8 +108,7 @@ void Polygone<T>::addPoint(Point2D<T> p) {
 template <typename T>
 void Polygone<T>::translate(T x, T y) {
     for(typename vector<Point2D<T>>::iterator it = this->sommets.begin(); it != this->sommets.end(); ++it) {
-        it->x += x;
-        it->y += y;
+        it->translate(x,y);
     }
 }
 
