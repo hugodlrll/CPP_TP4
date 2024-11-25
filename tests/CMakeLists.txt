@@ -5,7 +5,7 @@ add_subdirectory(../googletest googletest-build)
 enable_testing()
 
 # Créer l'exécutable de tests
-add_executable(tests tests_main.cpp)
+add_executable(TU_Point2D TU_Point2D.cpp)
 
 # Lier Google Test et le projet principal
-target_link_libraries(tests gtest gtest_main)
+target_link_libraries(TU_Point2D gtest gtest_main)
