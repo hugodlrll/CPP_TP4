@@ -31,6 +31,22 @@ TEST(Polygone, testPolygone) {
 }
 
 /**
+ * @brief Test de l'ajout d'un point au polygone
+ * 
+ */
+ TEST(Polygone, TestAddPoint) {
+    Point2D<int> p1(1, 2);
+    Point2D<int> p2(3, 4);
+    Point2D<int> p3(5, 6);
+    Polygone<int> poly({p1, p2, p3});
+    Point2D<int> p4(7, 8);
+    poly.addPoint(p4);
+    EXPECT_EQ(poly.getSommets().size(), 4);
+    EXPECT_EQ(poly.getSommets()[3].getX(), 7);
+    EXPECT_EQ(poly.getSommets()[3].getY(), 8);
+ }
+
+/**
  * @brief Test de la translation du polygone
  * 
  */
