@@ -15,7 +15,7 @@ int main(void) {
     Polygone<int> poly(listeSommets);
     std::cout << poly << std::endl;
     ZN zn(12, "Hugo", poly);
-    zn.setType("ZN");
+    zn.setType();
     std::cout << zn;
     return 0;
 }

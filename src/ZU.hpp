@@ -3,13 +3,16 @@
 #ifndef ZU_HPP
 #define ZU_HPP
 
-class ZU : ZAU
+class ZU : public ZAU
 {
-    ZU();
+    public:
+        ZU(int num, std::string prop, Polygone<int> forme, int pConstruc);
+        int surfaceConstructible();
+        void setType();
+    protected:
+        int pConstruite;
 } ;
 
-ostream& operator<<(ostream& os, ZU & const z) {
-
-}
+ostream& operator<<(ostream& os, ZU& z);
 
 #endif
