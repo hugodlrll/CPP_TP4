@@ -7,7 +7,7 @@ class ZN : public Parcelle
 {
     public:
         ZN(int num, std::string prop, Polygone<int> forme);
-        void setType(std::string type) override;
+        void setType() override;
 } ;
 
 #endif

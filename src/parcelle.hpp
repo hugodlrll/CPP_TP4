@@ -19,7 +19,7 @@ class Parcelle {
         void setProprietaire(std::string prop);
         void setForme(Polygone<int> forme);
         float calculSurface(Polygone<int> forme);
-        virtual void setType(string type) = 0;
+        virtual void setType() = 0;
     protected:
         std::string type ;
         int numero ;
