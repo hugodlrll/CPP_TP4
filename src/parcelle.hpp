@@ -1,3 +1,14 @@
+/**
+ * @file parcelle.hpp
+ * @author DELARUELLE Hugo, DEPEYRIS Julien, DARGERE Lucas, LAVAUX Bastien
+ * @brief Définition de la classe Parcelle
+ * @version 0.1
+ * @date 2024-11-25
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include <string>
 #include <iostream>
 #include "polygone.hpp"
@@ -15,6 +26,7 @@ class Parcelle {
         float getSurface() ;
         Polygone<int> & getForme() ;
         std::string getType() ;
+        int getPConstruct();
         void setNumero(int n);
         void setProprietaire(std::string prop);
         void setForme(Polygone<int> forme);
