@@ -18,8 +18,8 @@
  * @param forme Polygone représentant la forme de la parcelle
  * @param pConstruc Surface constructible de la parcelle
  */
-ZU::ZU(int num, std::string prop, Polygone<int> forme, int pConstruc)
-    : ZAU(num, prop, forme, pConstruc) {}
+ZU::ZU(int num, std::string prop, Polygone<int> forme, int pConstruc, int pConstruite)
+    : ZAU(num, prop, forme, pConstruc), pConstruite(pConstruite) { setType(); }
 
 /**
  * @brief Calcul de la surface constructible
@@ -27,7 +27,7 @@ ZU::ZU(int num, std::string prop, Polygone<int> forme, int pConstruc)
  * @return int surface constructible
  */
 int ZU::surfaceConstructible() {
-    return (((pConstructible/100) * this->getSurface()) - pConstruite);
+    return ((pConstructible - pConstruite) * this->getSurface())/100;
 }
 
 /**

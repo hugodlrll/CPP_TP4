@@ -19,7 +19,7 @@
  * @param culture Type de culture de la parcelle
  */
 ZA::ZA(int num, std::string prop, Polygone<int> forme, std::string culture)
-    : ZN(num, prop, forme), typeCulture(culture) {}
+    : ZN(num, prop, forme, 10), typeCulture(culture) { setType(); }
 
 /**
  * @brief Calcul de la surface constructible
@@ -41,6 +41,15 @@ int ZA::surfaceConstructible() {
  */
 std::string ZA::getCulture() {
     return this->typeCulture ;
+}
+
+/**
+ * @brief Setter du type de culture
+ * 
+ * @param c Type de culture
+ */
+void ZA::setTypeCulture(std::string c) {
+    this->typeCulture = c ;
 }
 
 /**

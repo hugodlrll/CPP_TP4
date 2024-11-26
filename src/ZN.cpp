@@ -19,8 +19,8 @@ using namespace std;
  * @param prop Nom du propriétaire de la parcelle
  * @param forme Polygone représentant la forme de la parcelle
  */
-ZN::ZN(int num, std::string prop, Polygone<int> forme)
-    : Parcelle(num, prop, forme, -1) {}
+ZN::ZN(int num, std::string prop, Polygone<int> forme, int pConstruct)
+    : Parcelle(num, prop, forme, pConstruct) { setType() ; }
 
 /**
  * @brief Setter du type de la parcelle
