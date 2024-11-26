@@ -17,8 +17,8 @@
 class ZN : public Parcelle
 {
     public:
-        ZN(int num, std::string prop, Polygone<int> forme);
-        void setType() override;
+        ZN(int num, std::string prop, Polygone<int> forme, int pConstruct);
+        void setType() override ;
 } ;
 
 #endif

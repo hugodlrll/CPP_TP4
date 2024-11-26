@@ -19,7 +19,7 @@
  * @param pConstruc Surface constructible de la parcelle
  */
 ZAU::ZAU(int num, std::string prop, Polygone<int> forme, int pConstruc)
-    : Parcelle(num, prop, forme, pConstruc) {}
+    : Parcelle(num, prop, forme, pConstruc) { setType() ; }
 
 /**
  * @brief Calcul de la surface constructible
@@ -27,7 +27,7 @@ ZAU::ZAU(int num, std::string prop, Polygone<int> forme, int pConstruc)
  * @return int surface constructible
  */
 int ZAU::surfaceConstructible() {
-    return ((pConstructible/100) * this->getSurface());
+    return ((pConstructible/100) * this->getSurface()) ;
 }
 
 /**
@@ -35,7 +35,7 @@ int ZAU::surfaceConstructible() {
  * 
  */
 void ZAU::setType() {
-    this->type = "ZAU";
+    this->type = "ZAU" ;
 }
 
 /**

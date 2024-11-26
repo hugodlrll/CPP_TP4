@@ -14,8 +14,11 @@ int main(void) {
     listeSommets.push_back(p4);
     Polygone<int> poly(listeSommets);
     std::cout << poly << std::endl;
-    ZN zn(12, "Hugo", poly);
+    ZN zn(12, "Hugo", poly, -1);
     zn.setType();
-    std::cout << zn;
+    std::cout << zn << endl;
+    cout << zn.getProprietaire() << endl;
+    cout << zn.getNumero() << endl;
+    cout << zn.getSurface() << endl;
     return 0;
 }

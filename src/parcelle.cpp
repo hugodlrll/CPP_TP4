@@ -18,7 +18,7 @@
  * @param prop Nom du propriétaire de la parcelle
  * @param forme Polygone représentant la forme de la parcelle
  */
-Parcelle::Parcelle(int num, string prop, Polygone<int> forme, int pConstruc) : numero(num), proprietaire(prop), forme(forme), surface(calculSurface(forme)) {}
+Parcelle::Parcelle(int num, string prop, Polygone<int> forme, int pConstruc) : numero(num), proprietaire(prop), forme(forme), pConstructible(pConstruc), surface(calculSurface(forme)) {}
 
 /**
  * @brief Constructeur de copie
@@ -104,9 +104,18 @@ void Parcelle::setProprietaire(string prop){
  * 
  * @param forme Polygone représentant la forme de la parcelle
  */
-void Parcelle::setForme(Polygone<int> forme){
+void Parcelle::setForme(Polygone<int> forme) {
     this->forme = forme ;
     calculSurface(forme);
+}
+
+/**
+ * @brief Setter du taux constructible de la parcelle
+ * 
+ * @param p taux constructible de la parcelle
+ */
+void Parcelle::setPConstruct(int p) {
+    this->pConstructible = p ;
 }
 
 /**
@@ -115,20 +124,19 @@ void Parcelle::setForme(Polygone<int> forme){
  * @param forme Polygone représentant la forme de la parcelle
  * @return float : Surface de la parcelle
  */
-float Parcelle::calculSurface(Polygone<int> forme){
-    float result = 0;
-    vector<Point2D<int>>::iterator itNext;
+float Parcelle::calculSurface(Polygone<int> forme) {
+    float result = 0 ;
+    vector<Point2D<int>>::iterator itNext ;
     for(typename vector<Point2D<int>>::iterator it = forme.getSommets().begin(); it != forme.getSommets().end(); it++)
     {
         if(std::next(it,1) != forme.getSommets().end()){
-            itNext = std::next(it,1);
+            itNext = std::next(it,1) ;
         } else {
-            itNext = forme.getSommets().begin();
+            itNext = forme.getSommets().begin() ;
         }
-        result +=  it->getX()*itNext->getY() - itNext->getX()*it->getY();
-        std::cout << it->getX() << " * " << itNext->getY() << " - " << itNext->getX() << " * " << it->getY() << std::endl;
+        result +=  it->getX()*itNext->getY() - itNext->getX()*it->getY() ;
     }
-    return (abs(0.5*result));
+    return (abs(0.5*result)) ;
 }
 
 /**
