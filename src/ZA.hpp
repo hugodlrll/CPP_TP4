@@ -22,7 +22,7 @@ class ZA : public ZN, public Constructible
         ZA(int num, std::string prop, Polygone<int> forme, std::string culture) ;
         int surfaceConstructible() ;
         std::string getCulture() ;
-        void setType() ;
+        void setType() override ;
     protected:
         std::string typeCulture ;
 } ;

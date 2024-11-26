@@ -24,7 +24,7 @@ class Constructible
      * @brief Retourne la surface constructible
      * @return int 
      */
-        virtual int surfaceConstructible() const = 0;
+        virtual int surfaceConstructible() = 0;
 } ;
 
 #endif
