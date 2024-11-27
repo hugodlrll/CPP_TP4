@@ -6,11 +6,12 @@ enable_testing()
 
 # Définir les fichiers sources et d'en-tête nécessaires
 set(SOURCES
-../src/parcelle.cpp
-../src/ZN.cpp
-../src/ZA.cpp
-../src/ZU.cpp
-../src/ZAU.cpp
+    ../src/parcelle.cpp
+    ../src/ZN.cpp
+    ../src/ZA.cpp
+    ../src/ZU.cpp
+    ../src/ZAU.cpp
+    ../src/carte.cpp
 )
 
 set(HEADERS
@@ -21,6 +22,7 @@ set(HEADERS
     ../src/ZA.hpp
     ../src/ZU.hpp
     ../src/ZAU.hpp
+    ../src/carte.hpp
 )
 
 # Créer une bibliothèque statique avec les fichiers sources
@@ -34,6 +36,7 @@ set(TEST_SOURCES
     TU_ZA.cpp
     TU_ZAU.cpp
     TU_ZU.cpp
+    TU_Carte.cpp
 )
 
 # Créer un exécutable pour chaque fichier de test unitaire
@@ -43,6 +46,7 @@ add_executable(TU_ZN TU_ZN.cpp)
 add_executable(TU_ZA TU_ZA.cpp)
 add_executable(TU_ZAU TU_ZAU.cpp)
 add_executable(TU_ZU TU_ZU.cpp)
+add_executable(TU_Carte TU_Carte.cpp)
 
 # Lier Google Test et les fichiers sources aux exécutables de test unitaire
 target_link_libraries(TU_Point2D my_library gtest gtest_main)
@@ -51,6 +55,7 @@ target_link_libraries(TU_ZN my_library gtest gtest_main)
 target_link_libraries(TU_ZA my_library gtest gtest_main)
 target_link_libraries(TU_ZAU my_library gtest gtest_main)
 target_link_libraries(TU_ZU my_library gtest gtest_main)
+target_link_libraries(TU_Carte my_library gtest gtest_main)
 
 # Créer un exécutable global pour tous les tests unitaires
 add_executable(all_tests ${TEST_SOURCES})
