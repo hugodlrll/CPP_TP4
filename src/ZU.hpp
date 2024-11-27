@@ -17,10 +17,10 @@
 class ZU : public ZAU
 {
     public:
-        ZU(int num, std::string prop, Polygone<int> forme, int pConstruc);
-        int surfaceConstructible();
-        void setType();
-        int getPContruite();
+        ZU(int num, std::string prop, Polygone<int> forme, int pConstruc, int pConstruite); ;
+        int surfaceConstructible() override ;
+        void setType() override ;
+        int getPContruite() ;
     protected:
         int pConstruite;
 } ;

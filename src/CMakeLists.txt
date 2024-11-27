@@ -12,6 +12,7 @@ set(HEADERS
     ../src/point2D.hpp
     ../src/polygone.hpp
     ../src/parcelle.hpp
+    ../src/constructible.hpp
     ../src/ZN.hpp
     ../src/ZA.hpp
     ../src/ZU.hpp

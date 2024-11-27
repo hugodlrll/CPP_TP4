@@ -26,21 +26,22 @@ class Parcelle {
         float getSurface() ;
         Polygone<int> & getForme() ;
         std::string getType() ;
-        int getPConstruct();
-        void setNumero(int n);
-        void setProprietaire(std::string prop);
-        void setForme(Polygone<int> forme);
-        float calculSurface(Polygone<int> forme);
-        virtual void setType() = 0;
+        int getPConstruct() ;
+        void setNumero(int n) ;
+        void setProprietaire(std::string prop) ;
+        void setForme(Polygone<int> forme) ;
+        void setPConstruct(int p) ;
+        float calculSurface(Polygone<int> forme) ;
+        virtual void setType() = 0 ;
     protected:
         std::string type ;
         int numero ;
         std::string proprietaire ;
         float surface ;
-        Polygone<int> forme;
-        int pConstructible;
+        Polygone<int> forme ;
+        int pConstructible ;
 } ;
 
-ostream& operator<<(ostream& os, Parcelle& p);
+ostream& operator<<(ostream& os, Parcelle& p) ;
 
 #endif
