@@ -26,7 +26,7 @@ int main(void) {
 
 
   std::cout << "Hello World!\n"; 
-  Carte carte =Carte("../Parcelles_short.txt");
+  Carte carte =Carte("../Parcelles.txt");
 
   
   carte.Export();
