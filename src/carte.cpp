@@ -1,101 +1,31 @@
-/**
- * @file carte.cpp
- * @author DELARUELLE Hugo DEPEYRIS Julien DARGERE Lucas LAVAUX Bastien
- * @brief Description de la classe Carte
- * @version 0.1
- * @date 2024-11-27
- * 
- * @copyright Copyright (c) 2024
- * 
- */
-#include "carte.hpp"
+#include "Carte.h"
+#include "point2D.hpp"
+#include "polygone.hpp"
+#include "ZN.hpp"
+#include "ZA.hpp"
+#include "ZAU.hpp"
+#include "ZU.hpp"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream> // Pour utiliser istringstream
 
-/**
- * @brief Constructeur par défaut de la classe Carte
- * 
- */
-Carte::Carte() {}
+using namespace std;
 
-/**
- * @brief Constructeur de la classe Carte
- * 
- * @param listeParcelles Liste des parcelles de la carte
- */
-Carte::Carte(vector<Parcelle*>& listeParcelles) : listeParcelles(listeParcelles) {}
+vector<Parcelle*> ListaParcelles;
 
-/**
- * @brief Constructeur de copie
- * 
- * @param carte Carte à copier
- */
-Carte::Carte(Carte & carte) : surfaceTotale(carte.surfaceTotale), listeParcelles(carte.listeParcelles) {}
-
-/**
- * @brief Accesseur de la liste des parcelles
- * 
- * @return vector<Parcelle>& Liste des parcelles 
- */
-vector<Parcelle*>& Carte::getListeParcelles() {
-  return this->listeParcelles ;
-}
-
-/**
- * @brief Setter de la liste des parcelles
- * 
- * @param listeParcelle Liste des parcelles
- */
-void Carte::setListeParcelles(vector<Parcelle*>& listeParcelle) {
-  this->listeParcelles = listeParcelle ;
-}
-
-/**
- * @brief Importe une carte depuis un fichier
- * 
- * @param path Chemin du fichier
- */
-void importCarte(std::string path) {
-
-} 
-
-/**
- * @brief Exporte une carte dans un fichier
- * 
- * @param path Chemin du fichier
- */
-void exportCarte(std::string path) {
-
-}
-
-/**
- * @brief Ajoute une parcelle à la carte
- * 
- * @param parc Parcelle à ajouter
- */
-void addParcelle(Parcelle & parc) {
-
-}
-
-/**
- * @brief Supprime une parcelle de la carte
- * 
- * @param parc Parcelle à supprimer
- */
-void delParcelle(Parcelle & parc) {
-
-}
-
-/**
- * @brief Surcharge de l'opérateur << pour afficher la carte
- * 
- * @param os Flux de sortie
- * @param carte Carte à afficher 
- * @return ostream&  Flux de sortie
- */
-ostream& operator<<(ostream& os, Carte& carte) {
-  for(vector<Parcelle*>::iterator it = carte.getListeParcelles().begin(); it!= carte.getListeParcelles().end(); it++) {
-    os << *it << endl;
-  }
-  return os;
+string readFileIntoString(const string& path) {
+  string  content;
+    ifstream input_file(path);
+    if (!input_file.is_open()) {
+        cerr << "Could not open the file - '"
+             << path << "'" << endl;
+        exit(EXIT_FAILURE);
+    }
+    content = string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
+    input_file.close();
+  //cout << content<<endl;
+  return content;
 }
 
 
@@ -113,8 +43,6 @@ vector<string> extraireMots(const string& phrase) {
 }
 
 
-//Polygone<int> extrairePolygone()
-
 void ImporZU (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZU" ;
@@ -128,19 +56,22 @@ void ImporZU (string data){
     int y = 0;
     mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
 
-    // Trouver la position du ';'
+  // Trouver la position du ';'
     size_t posPointVirgule = mots[i].find(';');
-  
-    // Extraire les parties avant et après le ';'
+      // Extraire les parties avant et après le ';'
     string avantStr = mots[i].substr(0, posPointVirgule);
     string apresStr = mots[i].substr(posPointVirgule + 1);
-
       // Convertir les chaînes en entiers
     x = stoi(avantStr);
     y = stoi(apresStr);
     
     points.push_back(Point2D<int>(x,y)); 
-  }  
+  }
+  Polygone<int> poly = Polygone<int>(points);
+  ZU parcelle = ZU( Numéro, Propriétaire, poly , pConstructible, surfaceConstruite);
+
+  ListaParcelles.push_back(&parcelle);
+
 }
 
 void ImporZAU (string data){
@@ -149,10 +80,28 @@ void ImporZAU (string data){
   int Numéro = stoi(mots[1]);
   string Propriétaire = mots[2];
   int pConstructible = stoi(mots[3]);
-  cout << Zone<<endl;
-  cout << Numéro<<endl;
-  cout << Propriétaire<<endl;
-  cout << pConstructible<<endl;
+  vector<Point2D<int>> points ;
+  for(int i=4;i<mots.size();i++){
+    int x = 0; 
+    int y = 0;
+    mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
+
+  // Trouver la position du ';'
+    size_t posPointVirgule = mots[i].find(';');
+      // Extraire les parties avant et après le ';'
+    string avantStr = mots[i].substr(0, posPointVirgule);
+    string apresStr = mots[i].substr(posPointVirgule + 1);
+      // Convertir les chaînes en entiers
+    x = stoi(avantStr);
+    y = stoi(apresStr);
+    
+    points.push_back(Point2D<int>(x,y)); 
+  }
+  Polygone<int> poly = Polygone<int>(points);
+  ZAU parcelle = ZAU( Numéro, Propriétaire, poly , pConstructible);
+  
+  ListaParcelles.push_back(&parcelle);
+
 }
 
 void ImporZA (string data){
@@ -161,10 +110,28 @@ void ImporZA (string data){
   int Numéro = stoi(mots[1]);
   string Propriétaire = mots[2];
   string typeCulture = mots[3];
-  cout << Zone<<endl;
-  cout << Numéro<<endl;
-  cout << Propriétaire<<endl;
-  cout << typeCulture<<endl;
+  vector<Point2D<int>> points ;
+  for(int i=4;i<mots.size();i++){
+    int x = 0; 
+    int y = 0;
+    mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
+
+  // Trouver la position du ';'
+    size_t posPointVirgule = mots[i].find(';');
+      // Extraire les parties avant et après le ';'
+    string avantStr = mots[i].substr(0, posPointVirgule);
+    string apresStr = mots[i].substr(posPointVirgule + 1);
+      // Convertir les chaînes en entiers
+    x = stoi(avantStr);
+    y = stoi(apresStr);
+    
+    points.push_back(Point2D<int>(x,y)); 
+  }
+  Polygone<int> poly = Polygone<int>(points);
+  ZA parcelle = ZA( Numéro, Propriétaire, poly , typeCulture);
+  
+  ListaParcelles.push_back(&parcelle);
+
 }
 
 void ImporZN (string data){
@@ -172,9 +139,28 @@ void ImporZN (string data){
   string Zone = "ZN" ;
   int Numéro = stoi(mots[1]);
   string Propriétaire = mots[2];
-  cout << Zone<<endl;
-  cout << Numéro<<endl;
-  cout << Propriétaire<<endl;
+
+  vector<Point2D<int>> points ;
+  for(int i=3;i<mots.size();i++){
+    int x = 0; 
+    int y = 0;
+    mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
+
+  // Trouver la position du ';'
+    size_t posPointVirgule = mots[i].find(';');
+      // Extraire les parties avant et après le ';'
+    string avantStr = mots[i].substr(0, posPointVirgule);
+    string apresStr = mots[i].substr(posPointVirgule + 1);
+      // Convertir les chaînes en entiers
+    x = stoi(avantStr);
+    y = stoi(apresStr);
+    
+    points.push_back(Point2D<int>(x,y)); 
+  }
+  Polygone<int> poly = Polygone<int>(points);
+  ZN parcelle = ZN( Numéro, Propriétaire, poly,0);
+  
+  ListaParcelles.push_back(&parcelle);
   
 }
 
@@ -212,9 +198,35 @@ void separateur(string data){
   
 }
 
+Carte::Carte(string path){
+  string text= readFileIntoString(path);
+  separateur(text);
+}
+
+void Carte::Export(){
+   ofstream fichier("mon_fichier.txt");
+
+    // Vérifier si le fichier est ouvert
+    if (fichier.is_open()) {
+        // Écrire dans le fichier
+        fichier << "Bonjour, ceci est une ligne dans le fichier.\n";
+        fichier << ListaParcelles[1]->getType();
+
+        // Fermer le fichier
+        fichier.close();
+        cout << "Écriture terminée avec succès dans 'mon_fichier.txt'." << endl;
+    } else {
+        cerr << "Impossible d'ouvrir le fichier !" << endl;
+    }
 
 
 
+  for(int i = 0 ; i<5; i++){
+    
+    cout << ListaParcelles[i]->getType() << endl;
+  }
+
+}
 
 
 

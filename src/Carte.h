@@ -16,9 +16,7 @@ class Carte
 
 public:
     Carte(string path);
-
     void Export();
-
 };
 
 // opérateur d'affichage
