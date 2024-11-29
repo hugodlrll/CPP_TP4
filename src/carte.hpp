@@ -16,9 +16,8 @@ class Carte
 
 public:
     Carte(string path);
-
-    void Export();
-
+    void Export(const string& nom_fichier);
+    int GetSurfaceTotale();
 };
 
 // opérateur d'affichage

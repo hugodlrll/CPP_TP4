@@ -1,4 +1,16 @@
-#include "Carte.h"
+/**
+ * @file carte.cpp
+ * @author DELARUELLE Hugo, DEPEYRIS Julien, DARGERE Lucas, LAVAUX Bastien
+ * @brief Définition de la classe Carte
+ * @version 0.1
+ * @date 2024-11-25
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
+
+#include "carte.hpp"
 #include "point2D.hpp"
 #include "polygone.hpp"
 #include "ZN.hpp"
@@ -10,9 +22,17 @@
 #include <vector>
 #include <sstream> // Pour utiliser istringstream
 
+
+
 using namespace std;
 
 vector<Parcelle*> ListaParcelles;
+
+/**
+ * @brief Lecture des données dans le fichier
+ * 
+ * @param path lien du fichier
+ */
 
 string readFileIntoString(const string& path) {
   string  content;
@@ -24,7 +44,7 @@ string readFileIntoString(const string& path) {
     }
     content = string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>())+string("\n");
     input_file.close();
-  //cout << content<<endl;
+  
   return content;
 }
 
@@ -41,6 +61,12 @@ vector<string> extraireMots(const string& phrase) {
 }
 
 
+/**
+ * @brief import d'une ZU
+ * 
+ * @param data données a passer en paramètres de la ZU
+ */
+
 void ImporZU (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZU" ;
@@ -48,8 +74,6 @@ void ImporZU (string data){
   string Propriétaire = mots[2];
   int pConstructible = stoi(mots[3]);
   int surfaceConstruite = stoi(mots[4]);
-  cout<<surfaceConstruite <<endl;
-  cout<<stoi(mots[4]);
   vector<Point2D<int>> points ;
   for(int i=5;i<mots.size();i++){
     int x = 0; 
@@ -69,6 +93,13 @@ void ImporZU (string data){
   ZU* parcelle = new ZU( Numéro, Propriétaire, poly , pConstructible, surfaceConstruite);
   ListaParcelles.push_back(parcelle);
 }
+
+/**
+ * @brief import d'une ZAU
+ * 
+ * @param data données a passer en paramètres de la ZAU
+ */
+
 
 void ImporZAU (string data){
   vector<string> mots = extraireMots(data);
@@ -98,6 +129,13 @@ void ImporZAU (string data){
 
 }
 
+/**
+ * @brief import d'une ZA
+ * 
+ * @param data données a passer en paramètres de la ZA
+ */
+
+
 void ImporZA (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZA" ;
@@ -123,6 +161,13 @@ void ImporZA (string data){
   ZA* parcelle = new ZA( Numéro, Propriétaire, poly , typeCulture);
   ListaParcelles.push_back(parcelle);
 }
+
+/**
+ * @brief import d'une ZN
+ * 
+ * @param data données a passer en paramètres de la ZN
+ */
+
 
 void ImporZN (string data){
   vector<string> mots = extraireMots(data);
@@ -170,7 +215,7 @@ void separateur(string data){
             }else if (Zone=="ZN"){
               ImporZN(phrase);
             }
-          cout << ""<<endl;
+          
           line = 0 ;
           phrase = "";
           }
@@ -181,16 +226,37 @@ void separateur(string data){
     }
 }
 
+/**
+ * @brief Constructeur de la classe Carte
+ * 
+ * @param path lien du fichier des parcelles
+ */
 Carte::Carte(string path){
   string text= readFileIntoString(path);
   separateur(text);
 }
 
+/**
+ * @brief Obtention de la surface totale de toute les parcelles 
+ * 
+ * 
+ */
+int Carte::GetSurfaceTotale(){
+  int SurfaceTotale = 0;
+  for(int i = 0 ; i<ListaParcelles.size(); i++){
+    SurfaceTotale = SurfaceTotale + ListaParcelles[i]->getSurface();
+  }
+  return SurfaceTotale;
+}
 
+/**
+ * @brief Exportation des parcelles dans in fichier
+ * 
+ * @param data données a passer en paramètres de la ZU
+ */
 
-
-void Carte::Export(){
-   ofstream fichier("mon_fichier.txt");
+void Carte::Export(const string& nom_fichier){
+   ofstream fichier(nom_fichier);
     // Vérifier si le fichier est ouvert
     if (fichier.is_open()) {
      for(int i = 0 ; i<ListaParcelles.size(); i++){
@@ -203,7 +269,7 @@ void Carte::Export(){
         if ((ListaParcelles[i]->getType())=="ZA"){
           auto za = dynamic_cast<ZA*>(ListaParcelles[i]) ;
           fichier << za->getCulture() << "\n";
-          
+
         }else if((ListaParcelles[i]->getType())=="ZAU"){
           fichier<< ListaParcelles[i]->getPConstruct()<<"\n";
 
@@ -223,9 +289,6 @@ void Carte::Export(){
     } else {
         cerr << "Impossible d'ouvrir le fichier !" << endl;
     }
-    
-  
-
 }
 
 

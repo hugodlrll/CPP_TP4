@@ -1,5 +1,5 @@
 #include "ZN.hpp"
-#include "Carte.h"
+#include "carte.hpp"
 
 using namespace std;
 
@@ -21,15 +21,11 @@ int main(void) {
     cout << zn.getProprietaire() << endl;
     cout << zn.getNumero() << endl;
     cout << zn.getSurface() << endl;*/
-
-  
-
-
   std::cout << "Hello World!\n"; 
   Carte carte =Carte("../Parcelles.txt");
 
-  
-  carte.Export();
+  cout<<carte.GetSurfaceTotale()<< " m2\n";
+  carte.Export("mon_fichier.txt");
    
 
 
