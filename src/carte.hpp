@@ -18,6 +18,7 @@ public:
     Carte(string path);
     void Export(const string& nom_fichier);
     int GetSurfaceTotale();
+    void ImportParcelle(string type ,int numero, string proprietaire, int pConstructible , int surfaceConstruite, string typeCulture, string ListeDePoint );
 };
 
 // opérateur d'affichage

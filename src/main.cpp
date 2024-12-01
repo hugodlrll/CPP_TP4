@@ -21,10 +21,14 @@ int main(void) {
     cout << zn.getProprietaire() << endl;
     cout << zn.getNumero() << endl;
     cout << zn.getSurface() << endl;*/
-  std::cout << "Hello World!\n"; 
+  
   Carte carte =Carte("../Parcelles.txt");
 
   cout<<carte.GetSurfaceTotale()<< " m2\n";
+  carte.ImportParcelle("ZA",50,  "DARGERE", 0, 0,"Blé", "[80;0] [100;0] [100;100] [80;100]" );
+  carte.ImportParcelle("ZAU",250,  "LAVAUX", 50, 0,"", "[80;0] [100;0] [100;100] [80;100]" );
+  carte.ImportParcelle("ZN",150,  "DELARUELLE", 0, 0,"", "[80;0] [100;0] [100;100] [80;100]" );
+  carte.ImportParcelle("ZU",530,  "DEPEYRIS", 45, 7,"", "[80;0] [100;0] [100;100] [80;100]" );
   carte.Export("mon_fichier.txt");
    
 

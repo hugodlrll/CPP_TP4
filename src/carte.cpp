@@ -9,7 +9,6 @@
  * 
  */
 
-
 #include "carte.hpp"
 #include "point2D.hpp"
 #include "polygone.hpp"
@@ -291,5 +290,53 @@ void Carte::Export(const string& nom_fichier){
     }
 }
 
+void Carte::ImportParcelle(string type ,int numero, string proprietaire, int pConstructible , int surfaceConstruite, string typeCulture, string ListeDePoint ){
+string phrase = "";
+vector<Point2D<int>> points ;
+vector<string> mots = extraireMots(ListeDePoint);
+for(int i=0;i<mots.size();i++){
+    int x = 0; 
+    int y = 0;
+    mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
+  // Trouver la position du ';'
+    size_t posPointVirgule = mots[i].find(';');
+      // Extraire les parties avant et après le ';'
+    string avantStr = mots[i].substr(0, posPointVirgule);
+    string apresStr = mots[i].substr(posPointVirgule + 1);
+      // Convertir les chaînes en entiers
+    x = stoi(avantStr);
+    y = stoi(apresStr);
+    points.push_back(Point2D<int>(x,y));
+    
+  }
+
+  if(type == "ZA"){
+    Polygone<int> poly = Polygone<int>(points);
+    ZA* parcelle = new ZA( numero, proprietaire, poly , typeCulture);
+    ListaParcelles.push_back(parcelle);
+    
+
+  }else if(type == "ZAU"){
+    Polygone<int> poly = Polygone<int>(points);
+    ZAU* parcelle = new ZAU( numero, proprietaire, poly , pConstructible);
+    ListaParcelles.push_back(parcelle);
+    
+
+  }
+  else if(type == "ZN"){
+    Polygone<int> poly = Polygone<int>(points);
+    ZN* parcelle = new ZN( numero, proprietaire, poly,-1);
+    ListaParcelles.push_back(parcelle);
+    
+
+  }else if(type == "ZU"){
+    Polygone<int> poly = Polygone<int>(points);
+    ZU* parcelle = new ZU( numero, proprietaire, poly , pConstructible, surfaceConstruite);
+    ListaParcelles.push_back(parcelle);
+    
+
+  }
+
+}
 
 
