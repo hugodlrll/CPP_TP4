@@ -22,12 +22,12 @@ TEST(ZN, testZN) {
     Point2D<int> p3(2, 2);
     Point2D<int> p4(2, 1);
     Polygone<int> poly({p1, p2, p3, p4});
-    ZN z(1, "proprietaire", poly, -1);
+    ZN z(1, "proprietaire", poly, 0);
     EXPECT_EQ(z.getNumero(), 1);
     EXPECT_EQ(z.getProprietaire(), "proprietaire");
     EXPECT_EQ(z.getSurface(), 1);
     EXPECT_EQ(z.getType(), "ZN");
-    EXPECT_EQ(z.getPConstruct(), -1);
+    EXPECT_EQ(z.getPConstruct(), 0);
     EXPECT_EQ(z.getForme().getSommets()[0].getX(), 1);
     EXPECT_EQ(z.getForme().getSommets()[0].getY(), 1);
     EXPECT_EQ(z.getForme().getSommets()[1].getX(), 1);
@@ -61,7 +61,7 @@ TEST(ZN, testZNSetter) {
     EXPECT_EQ(z.getProprietaire(), "nouveau proprietaire");
     EXPECT_EQ(z.getSurface(), 1);
     EXPECT_EQ(z.getType(), "ZN");
-    EXPECT_EQ(z.getPConstruct(), -1);
+    EXPECT_EQ(z.getPConstruct(), 0);
     EXPECT_EQ(z.getForme().getSommets()[0].getX(), 3);
     EXPECT_EQ(z.getForme().getSommets()[0].getY(), 3);
     EXPECT_EQ(z.getForme().getSommets()[1].getX(), 3);
@@ -81,6 +81,6 @@ TEST(ZN, testCalculSurfaceTriangle) {
     Point2D<int> p2(0, 4);
     Point2D<int> p3(4, 0);
     Polygone<int> poly({p1, p2, p3});
-    ZN z(1, "proprietaire", poly, -1);
+    ZN z(1, "proprietaire", poly, 0);
     EXPECT_EQ(z.calculSurface(poly), 8);
 }
