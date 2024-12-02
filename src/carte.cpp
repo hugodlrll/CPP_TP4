@@ -1,7 +1,7 @@
 /**
  * @file carte.cpp
  * @author DELARUELLE Hugo, DEPEYRIS Julien, DARGERE Lucas, LAVAUX Bastien
- * @brief Définition de la classe Carte
+ * @brief Description de la classe Carte
  * @version 0.1
  * @date 2024-11-25
  * 
@@ -10,31 +10,14 @@
  */
 
 #include "carte.hpp"
-#include "point2D.hpp"
-#include "polygone.hpp"
-#include "ZN.hpp"
-#include "ZA.hpp"
-#include "ZAU.hpp"
-#include "ZU.hpp"
-#include <iostream>
-#include <string>
-#include <vector>
-#include <sstream> // Pour utiliser istringstream
-
-
-
-using namespace std;
-
-vector<Parcelle*> ListaParcelles;
 
 /**
- * @brief Lecture des données dans le fichier
+ * @brief Lecture d'un fichier
  * 
  * @param path lien du fichier
  */
-
-string readFileIntoString(const string& path) {
-  string  content;
+string Carte::readFileIntoString(const string& path) {
+  string content;
     ifstream input_file(path);
     if (!input_file.is_open()) {
         cerr << "Could not open the file - '"
@@ -48,7 +31,12 @@ string readFileIntoString(const string& path) {
 }
 
 
-vector<string> extraireMots(const string& phrase) {
+/**
+ * @brief Extraction des mots d'une phrase
+ * 
+ * @param phrase phrase a traiter
+ */
+vector<string> Carte::extraireMots(const string& phrase) {
     vector<string> mots;
     istringstream flux(phrase); // Crée un flux à partir de la chaîne
     string mot;
@@ -65,8 +53,7 @@ vector<string> extraireMots(const string& phrase) {
  * 
  * @param data données a passer en paramètres de la ZU
  */
-
-void ImporZU (string data){
+void Carte::ImporZU (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZU" ;
   int Numéro = stoi(mots[1]);
@@ -98,9 +85,7 @@ void ImporZU (string data){
  * 
  * @param data données a passer en paramètres de la ZAU
  */
-
-
-void ImporZAU (string data){
+void Carte::ImporZAU (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZAU" ;
   int Numéro = stoi(mots[1]);
@@ -133,9 +118,7 @@ void ImporZAU (string data){
  * 
  * @param data données a passer en paramètres de la ZA
  */
-
-
-void ImporZA (string data){
+void Carte::ImporZA (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZA" ;
   int Numéro = stoi(mots[1]);
@@ -166,9 +149,7 @@ void ImporZA (string data){
  * 
  * @param data données a passer en paramètres de la ZN
  */
-
-
-void ImporZN (string data){
+void Carte::ImporZN (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZN" ;
   int Numéro = stoi(mots[1]);
@@ -193,7 +174,7 @@ void ImporZN (string data){
   ListaParcelles.push_back(parcelle);  
 }
 
-void separateur(string data){
+void Carte::separateur(string data){
   int line = 0;
   string phrase = "";
   for (int i = 0 ; i <  data.size(); i++)
@@ -290,6 +271,17 @@ void Carte::Export(const string& nom_fichier){
     }
 }
 
+/**
+ * @brief Importation d'une parcelle
+ * 
+ * @param type Type de parcelle
+ * @param numero Numéro de la parcelle
+ * @param proprietaire Propriétaire de la parcelle
+ * @param pConstructible Taux de constructibilité de la parcelle 
+ * @param surfaceConstruite Surface construite de la parcelle
+ * @param typeCulture Type de culture de la parcelle
+ * @param ListeDePoint Liste des points de la parcelle
+ */
 void Carte::ImportParcelle(string type ,int numero, string proprietaire, int pConstructible , int surfaceConstruite, string typeCulture, string ListeDePoint ){
 string phrase = "";
 vector<Point2D<int>> points ;
