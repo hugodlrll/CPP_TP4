@@ -10,7 +10,7 @@
  */
 
 #include "parcelle.hpp"
-#include "Constructible.hpp"
+#include "constructible.hpp"
 #include <string>
 
 #ifndef ZAU_HPP

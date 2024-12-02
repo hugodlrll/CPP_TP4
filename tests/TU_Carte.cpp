@@ -11,3 +11,11 @@
 
 #include <gtest/gtest.h>
 #include "../src/carte.hpp"
+
+/**
+ * @brief Test du constructeur de la classe Point2D
+ * 
+
+TEST(Carte, testCarte) {
+
+}*/

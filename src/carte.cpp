@@ -38,9 +38,9 @@ string Carte::readFileIntoString(const string& path) {
  */
 vector<string> Carte::extraireMots(const string& phrase) {
     vector<string> mots;
-    istringstream flux(phrase); // Crée un flux à partir de la chaîne
+    istringstream flux(phrase); // Cree un flux à partir de la chaîne
     string mot;
-    // Lire chaque mot séparé par un espace
+    // Lire chaque mot separe par un espace
     while (flux >> mot) {
         mots.push_back(mot);
     }
@@ -51,13 +51,13 @@ vector<string> Carte::extraireMots(const string& phrase) {
 /**
  * @brief import d'une ZU
  * 
- * @param data données a passer en paramètres de la ZU
+ * @param data donnees a passer en paramètres de la ZU
  */
 void Carte::ImporZU (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZU" ;
-  int Numéro = stoi(mots[1]);
-  string Propriétaire = mots[2];
+  int Numero = stoi(mots[1]);
+  string Proprietaire = mots[2];
   int pConstructible = stoi(mots[3]);
   int surfaceConstruite = stoi(mots[4]);
   vector<Point2D<int>> points ;
@@ -76,20 +76,20 @@ void Carte::ImporZU (string data){
     points.push_back(Point2D<int>(x,y)); 
   }
   Polygone<int> poly = Polygone<int>(points);
-  ZU* parcelle = new ZU( Numéro, Propriétaire, poly , pConstructible, surfaceConstruite);
+  ZU* parcelle = new ZU( Numero, Proprietaire, poly , pConstructible, surfaceConstruite);
   ListaParcelles.push_back(parcelle);
 }
 
 /**
  * @brief import d'une ZAU
  * 
- * @param data données a passer en paramètres de la ZAU
+ * @param data donnees a passer en paramètres de la ZAU
  */
 void Carte::ImporZAU (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZAU" ;
-  int Numéro = stoi(mots[1]);
-  string Propriétaire = mots[2];
+  int Numero = stoi(mots[1]);
+  string Proprietaire = mots[2];
   int pConstructible = stoi(mots[3]);
   vector<Point2D<int>> points ;
   for(int i=4;i<mots.size();i++){
@@ -107,7 +107,7 @@ void Carte::ImporZAU (string data){
     points.push_back(Point2D<int>(x,y)); 
   }
   Polygone<int> poly = Polygone<int>(points);
-  ZAU* parcelle = new ZAU( Numéro, Propriétaire, poly , pConstructible);
+  ZAU* parcelle = new ZAU( Numero, Proprietaire, poly , pConstructible);
   
   ListaParcelles.push_back(parcelle);
 
@@ -116,13 +116,13 @@ void Carte::ImporZAU (string data){
 /**
  * @brief import d'une ZA
  * 
- * @param data données a passer en paramètres de la ZA
+ * @param data donnees a passer en paramètres de la ZA
  */
 void Carte::ImporZA (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZA" ;
-  int Numéro = stoi(mots[1]);
-  string Propriétaire = mots[2];
+  int Numero = stoi(mots[1]);
+  string Proprietaire = mots[2];
   string typeCulture = mots[3];
   vector<Point2D<int>> points ;
   for(int i=4;i<mots.size();i++){
@@ -140,20 +140,20 @@ void Carte::ImporZA (string data){
     points.push_back(Point2D<int>(x,y)); 
   }
   Polygone<int> poly = Polygone<int>(points);
-  ZA* parcelle = new ZA( Numéro, Propriétaire, poly , typeCulture);
+  ZA* parcelle = new ZA( Numero, Proprietaire, poly , typeCulture);
   ListaParcelles.push_back(parcelle);
 }
 
 /**
  * @brief import d'une ZN
  * 
- * @param data données a passer en paramètres de la ZN
+ * @param data donnees a passer en paramètres de la ZN
  */
 void Carte::ImporZN (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZN" ;
-  int Numéro = stoi(mots[1]);
-  string Propriétaire = mots[2];
+  int Numero = stoi(mots[1]);
+  string Proprietaire = mots[2];
   vector<Point2D<int>> points ;
   for(int i=3;i<mots.size();i++){
     int x = 0; 
@@ -170,7 +170,7 @@ void Carte::ImporZN (string data){
     points.push_back(Point2D<int>(x,y)); 
   }
   Polygone<int> poly = Polygone<int>(points);
-  ZN* parcelle = new ZN( Numéro, Propriétaire, poly,0);
+  ZN* parcelle = new ZN( Numero, Proprietaire, poly,0);
   ListaParcelles.push_back(parcelle);  
 }
 
@@ -232,15 +232,15 @@ int Carte::GetSurfaceTotale(){
 /**
  * @brief Exportation des parcelles dans in fichier
  * 
- * @param data données a passer en paramètres de la ZU
+ * @param data donnees a passer en paramètres de la ZU
  */
 
 void Carte::Export(const string& nom_fichier){
    ofstream fichier(nom_fichier);
-    // Vérifier si le fichier est ouvert
+    // Verifier si le fichier est ouvert
     if (fichier.is_open()) {
      for(int i = 0 ; i<ListaParcelles.size(); i++){
-        // Écrire dans le fichier
+        // ecrire dans le fichier
          fichier<< ListaParcelles[i]->getType()<<" ";
          fichier<< ListaParcelles[i]->getNumero()<<" ";
          fichier<< ListaParcelles[i]->getProprietaire()<<" ";
@@ -275,9 +275,9 @@ void Carte::Export(const string& nom_fichier){
  * @brief Importation d'une parcelle
  * 
  * @param type Type de parcelle
- * @param numero Numéro de la parcelle
- * @param proprietaire Propriétaire de la parcelle
- * @param pConstructible Taux de constructibilité de la parcelle 
+ * @param numero Numero de la parcelle
+ * @param proprietaire Proprietaire de la parcelle
+ * @param pConstructible Taux de constructibilite de la parcelle 
  * @param surfaceConstruite Surface construite de la parcelle
  * @param typeCulture Type de culture de la parcelle
  * @param ListeDePoint Liste des points de la parcelle
