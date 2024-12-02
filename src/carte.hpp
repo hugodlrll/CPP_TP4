@@ -1,23 +1,38 @@
-#ifndef Carte_h
-#define Carte_h
+/**
+ * @file carte.hpp
+ * @author DELARUELLE Hugo DEPEYRIS Julien DARGERE Lucas LAVAUX Bastien
+ * @brief Définition de la classe Carte
+ * @version 0.1
+ * @date 2024-11-27
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+#ifndef CARTE_HPP
+#define CARTE_HPP
 
-#include <stdexcept>
+#include <vector>
 #include <iostream>
-#include <fstream>
-#include <algorithm>
-#include <map>
-#include <cstring>
+#include "parcelle.hpp"
+#include "utilitaire.hpp"
 
 using namespace std;
 
-class Carte
-{
-
-
-public:
-    Carte(string path);
-
+class Carte {
+    public:
+        Carte() ;
+        Carte(vector<Parcelle*>& listeParcelles) ;
+        Carte(Carte& carte) ;
+        vector<Parcelle*>& getListeParcelles() ;
+        void setListeParcelles(vector<Parcelle*>& listeParcelles) ;
+        void importCarte(string& path) ;
+        void exportCarte(string& path) ;
+        void addParcelle(Parcelle& parc) ;
+        void delParcelle(Parcelle& parc) ;
+        friend ostream& operator<<(ostream& os, Carte& carte);
+    protected:
+        int surfaceTotale ;
+        vector<Parcelle*> listeParcelles ;
 };
 
-// opérateur d'affichage
 #endif

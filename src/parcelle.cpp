@@ -32,7 +32,7 @@ Parcelle::Parcelle(const Parcelle & parc) : type(parc.type), numero(parc.numero)
  * 
  * @return int : Numéro de la parcelle 
  */
-int Parcelle::getNumero() {
+int Parcelle::getNumero() const {
     return numero ;
 }
 
@@ -41,7 +41,7 @@ int Parcelle::getNumero() {
  * 
  * @return string : Nom du propriétaire de la parcelle
  */
-string Parcelle::getProprietaire() {
+string Parcelle::getProprietaire() const {
     return proprietaire ;
 }
 
@@ -50,7 +50,7 @@ string Parcelle::getProprietaire() {
  * 
  * @return float : Surface de la parcelle
  */
-float Parcelle::getSurface() {
+float Parcelle::getSurface() const {
     return surface ;
 }
 
@@ -68,7 +68,7 @@ Polygone<int> & Parcelle::getForme() {
  * 
  * @return string : Type de la parcelle
  */
-string Parcelle::getType() {
+string Parcelle::getType() const {
     return type ;
 }
 
@@ -77,7 +77,7 @@ string Parcelle::getType() {
  * 
  * @return int : Surface constructible de la parcelle
  */
-int Parcelle::getPConstruct() {
+int Parcelle::getPConstruct() const {
     return pConstructible ;
 }
 

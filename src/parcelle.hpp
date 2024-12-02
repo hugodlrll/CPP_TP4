@@ -21,18 +21,22 @@ class Parcelle {
     public:
         Parcelle(int num, string prop, Polygone<int> forme, int pConstruc) ; 
         Parcelle(const Parcelle & parc) ;
-        int getNumero() ;
-        std::string getProprietaire() ;
-        float getSurface() ;
+
+        int getNumero() const ;
+        std::string getProprietaire() const ;
+        float getSurface() const ;
         Polygone<int> & getForme() ;
-        std::string getType() ;
-        int getPConstruct() ;
+        std::string getType() const ;
+        int getPConstruct() const ;
+
         void setNumero(int n) ;
         void setProprietaire(std::string prop) ;
         void setForme(Polygone<int> forme) ;
         void setPConstruct(int p) ;
         float calculSurface(Polygone<int> forme) ;
         virtual void setType() = 0 ;
+
+        friend ostream& operator<<(ostream& os, Parcelle& p) ;
     protected:
         std::string type ;
         int numero ;
@@ -42,6 +46,6 @@ class Parcelle {
         int pConstructible ;
 } ;
 
-ostream& operator<<(ostream& os, Parcelle& p) ;
+
 
 #endif

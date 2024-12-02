@@ -18,13 +18,14 @@ class Point2D {
         Point2D(T x, T y) ;
         Point2D() ;
         Point2D(const Point2D<T> & p) ;
-        T getX() ;
-        T getY() ;
+        T getX() const ;
+        T getY() const ;
         void setX(T x) ;
         void setY(T y) ;
         void translate(T x, T y) ;
     protected:
-        T x, y;
+        T x;
+        T y;
 } ;
 
 /**
@@ -61,7 +62,7 @@ Point2D<T>::Point2D(const Point2D<T> & p) : x(p.x), y(p.y) {}
  * @return T coordonnée x
  */
 template <typename T>
-T Point2D<T>::getX() {
+T Point2D<T>::getX() const {
     return x;
 }
 
@@ -72,7 +73,7 @@ T Point2D<T>::getX() {
  * @return T coordonnée y
  */
 template <typename T>
-T Point2D<T>::getY() {
+T Point2D<T>::getY() const {
     return y;
 }
 
