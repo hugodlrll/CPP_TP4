@@ -1,101 +1,50 @@
 /**
  * @file carte.cpp
- * @author DELARUELLE Hugo DEPEYRIS Julien DARGERE Lucas LAVAUX Bastien
- * @brief Description de la classe Carte
+ * @author DELARUELLE Hugo, DEPEYRIS Julien, DARGERE Lucas, LAVAUX Bastien
+ * @brief Définition de la classe Carte
  * @version 0.1
- * @date 2024-11-27
+ * @date 2024-11-25
  * 
  * @copyright Copyright (c) 2024
  * 
  */
+
 #include "carte.hpp"
+#include "point2D.hpp"
+#include "polygone.hpp"
+#include "ZN.hpp"
+#include "ZA.hpp"
+#include "ZAU.hpp"
+#include "ZU.hpp"
+#include <iostream>
+#include <string>
+#include <vector>
+#include <sstream> // Pour utiliser istringstream
+
+
+
+using namespace std;
+
+vector<Parcelle*> ListaParcelles;
 
 /**
- * @brief Constructeur par défaut de la classe Carte
+ * @brief Lecture des données dans le fichier
  * 
+ * @param path lien du fichier
  */
-Carte::Carte() {}
 
-/**
- * @brief Constructeur de la classe Carte
- * 
- * @param listeParcelles Liste des parcelles de la carte
- */
-Carte::Carte(vector<Parcelle*>& listeParcelles) : listeParcelles(listeParcelles) {}
-
-/**
- * @brief Constructeur de copie
- * 
- * @param carte Carte à copier
- */
-Carte::Carte(Carte & carte) : surfaceTotale(carte.surfaceTotale), listeParcelles(carte.listeParcelles) {}
-
-/**
- * @brief Accesseur de la liste des parcelles
- * 
- * @return vector<Parcelle>& Liste des parcelles 
- */
-vector<Parcelle*>& Carte::getListeParcelles() {
-  return this->listeParcelles ;
-}
-
-/**
- * @brief Setter de la liste des parcelles
- * 
- * @param listeParcelle Liste des parcelles
- */
-void Carte::setListeParcelles(vector<Parcelle*>& listeParcelle) {
-  this->listeParcelles = listeParcelle ;
-}
-
-/**
- * @brief Importe une carte depuis un fichier
- * 
- * @param path Chemin du fichier
- */
-void importCarte(std::string path) {
-
-} 
-
-/**
- * @brief Exporte une carte dans un fichier
- * 
- * @param path Chemin du fichier
- */
-void exportCarte(std::string path) {
-
-}
-
-/**
- * @brief Ajoute une parcelle à la carte
- * 
- * @param parc Parcelle à ajouter
- */
-void addParcelle(Parcelle & parc) {
-
-}
-
-/**
- * @brief Supprime une parcelle de la carte
- * 
- * @param parc Parcelle à supprimer
- */
-void delParcelle(Parcelle & parc) {
-
-}
-
-/**
- * @brief Surcharge de l'opérateur << pour afficher la carte
- * 
- * @param os Flux de sortie
- * @param carte Carte à afficher 
- * @return ostream&  Flux de sortie
- */
-ostream& operator<<(ostream& os, Carte& carte) {
-  for(vector<Parcelle*>::iterator it = carte.getListeParcelles().begin(); it!= carte.getListeParcelles().end(); it++) {
-    os << *it << endl;
-  }
-  return os;
+string readFileIntoString(const string& path) {
+  string  content;
+    ifstream input_file(path);
+    if (!input_file.is_open()) {
+        cerr << "Could not open the file - '"
+             << path << "'" << endl;
+        exit(EXIT_FAILURE);
+    }
+    content = string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>())+string("\n");
+    input_file.close();
+  
+  return content;
 }
 
 
@@ -103,17 +52,19 @@ vector<string> extraireMots(const string& phrase) {
     vector<string> mots;
     istringstream flux(phrase); // Crée un flux à partir de la chaîne
     string mot;
-
     // Lire chaque mot séparé par un espace
     while (flux >> mot) {
         mots.push_back(mot);
     }
-
     return mots;
 }
 
 
-//Polygone<int> extrairePolygone()
+/**
+ * @brief import d'une ZU
+ * 
+ * @param data données a passer en paramètres de la ZU
+ */
 
 void ImporZU (string data){
   vector<string> mots = extraireMots(data);
@@ -127,21 +78,27 @@ void ImporZU (string data){
     int x = 0; 
     int y = 0;
     mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
-
-    // Trouver la position du ';'
+  // Trouver la position du ';'
     size_t posPointVirgule = mots[i].find(';');
-  
-    // Extraire les parties avant et après le ';'
+      // Extraire les parties avant et après le ';'
     string avantStr = mots[i].substr(0, posPointVirgule);
     string apresStr = mots[i].substr(posPointVirgule + 1);
-
       // Convertir les chaînes en entiers
     x = stoi(avantStr);
     y = stoi(apresStr);
-    
     points.push_back(Point2D<int>(x,y)); 
-  }  
+  }
+  Polygone<int> poly = Polygone<int>(points);
+  ZU* parcelle = new ZU( Numéro, Propriétaire, poly , pConstructible, surfaceConstruite);
+  ListaParcelles.push_back(parcelle);
 }
+
+/**
+ * @brief import d'une ZAU
+ * 
+ * @param data données a passer en paramètres de la ZAU
+ */
+
 
 void ImporZAU (string data){
   vector<string> mots = extraireMots(data);
@@ -149,11 +106,34 @@ void ImporZAU (string data){
   int Numéro = stoi(mots[1]);
   string Propriétaire = mots[2];
   int pConstructible = stoi(mots[3]);
-  cout << Zone<<endl;
-  cout << Numéro<<endl;
-  cout << Propriétaire<<endl;
-  cout << pConstructible<<endl;
+  vector<Point2D<int>> points ;
+  for(int i=4;i<mots.size();i++){
+    int x = 0; 
+    int y = 0;
+    mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
+  // Trouver la position du ';'
+    size_t posPointVirgule = mots[i].find(';');
+      // Extraire les parties avant et après le ';'
+    string avantStr = mots[i].substr(0, posPointVirgule);
+    string apresStr = mots[i].substr(posPointVirgule + 1);
+      // Convertir les chaînes en entiers
+    x = stoi(avantStr);
+    y = stoi(apresStr);
+    points.push_back(Point2D<int>(x,y)); 
+  }
+  Polygone<int> poly = Polygone<int>(points);
+  ZAU* parcelle = new ZAU( Numéro, Propriétaire, poly , pConstructible);
+  
+  ListaParcelles.push_back(parcelle);
+
 }
+
+/**
+ * @brief import d'une ZA
+ * 
+ * @param data données a passer en paramètres de la ZA
+ */
+
 
 void ImporZA (string data){
   vector<string> mots = extraireMots(data);
@@ -161,27 +141,62 @@ void ImporZA (string data){
   int Numéro = stoi(mots[1]);
   string Propriétaire = mots[2];
   string typeCulture = mots[3];
-  cout << Zone<<endl;
-  cout << Numéro<<endl;
-  cout << Propriétaire<<endl;
-  cout << typeCulture<<endl;
+  vector<Point2D<int>> points ;
+  for(int i=4;i<mots.size();i++){
+    int x = 0; 
+    int y = 0;
+    mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
+  // Trouver la position du ';'
+    size_t posPointVirgule = mots[i].find(';');
+      // Extraire les parties avant et après le ';'
+    string avantStr = mots[i].substr(0, posPointVirgule);
+    string apresStr = mots[i].substr(posPointVirgule + 1);
+      // Convertir les chaînes en entiers
+    x = stoi(avantStr);
+    y = stoi(apresStr);
+    points.push_back(Point2D<int>(x,y)); 
+  }
+  Polygone<int> poly = Polygone<int>(points);
+  ZA* parcelle = new ZA( Numéro, Propriétaire, poly , typeCulture);
+  ListaParcelles.push_back(parcelle);
 }
+
+/**
+ * @brief import d'une ZN
+ * 
+ * @param data données a passer en paramètres de la ZN
+ */
+
 
 void ImporZN (string data){
   vector<string> mots = extraireMots(data);
   string Zone = "ZN" ;
   int Numéro = stoi(mots[1]);
   string Propriétaire = mots[2];
-  cout << Zone<<endl;
-  cout << Numéro<<endl;
-  cout << Propriétaire<<endl;
-  
+  vector<Point2D<int>> points ;
+  for(int i=3;i<mots.size();i++){
+    int x = 0; 
+    int y = 0;
+    mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
+  // Trouver la position du ';'
+    size_t posPointVirgule = mots[i].find(';');
+      // Extraire les parties avant et après le ';'
+    string avantStr = mots[i].substr(0, posPointVirgule);
+    string apresStr = mots[i].substr(posPointVirgule + 1);
+      // Convertir les chaînes en entiers
+    x = stoi(avantStr);
+    y = stoi(apresStr);
+    points.push_back(Point2D<int>(x,y)); 
+  }
+  Polygone<int> poly = Polygone<int>(points);
+  ZN* parcelle = new ZN( Numéro, Propriétaire, poly,0);
+  ListaParcelles.push_back(parcelle);  
 }
 
 void separateur(string data){
   int line = 0;
   string phrase = "";
-  for (int i = 0, len = data.size(); i < len; i++)
+  for (int i = 0 ; i <  data.size(); i++)
     {
       phrase += data[i];
         // check whether parsing character is punctuation or not
@@ -199,7 +214,7 @@ void separateur(string data){
             }else if (Zone=="ZN"){
               ImporZN(phrase);
             }
-          cout << ""<<endl;
+          
           line = 0 ;
           phrase = "";
           }
@@ -208,13 +223,120 @@ void separateur(string data){
           }
         }
     }
-  
-  
 }
 
+/**
+ * @brief Constructeur de la classe Carte
+ * 
+ * @param path lien du fichier des parcelles
+ */
+Carte::Carte(string path){
+  string text= readFileIntoString(path);
+  separateur(text);
+}
+
+/**
+ * @brief Obtention de la surface totale de toute les parcelles 
+ * 
+ * 
+ */
+int Carte::GetSurfaceTotale(){
+  int SurfaceTotale = 0;
+  for(int i = 0 ; i<ListaParcelles.size(); i++){
+    SurfaceTotale = SurfaceTotale + ListaParcelles[i]->getSurface();
+  }
+  return SurfaceTotale;
+}
+
+/**
+ * @brief Exportation des parcelles dans in fichier
+ * 
+ * @param data données a passer en paramètres de la ZU
+ */
+
+void Carte::Export(const string& nom_fichier){
+   ofstream fichier(nom_fichier);
+    // Vérifier si le fichier est ouvert
+    if (fichier.is_open()) {
+     for(int i = 0 ; i<ListaParcelles.size(); i++){
+        // Écrire dans le fichier
+         fichier<< ListaParcelles[i]->getType()<<" ";
+         fichier<< ListaParcelles[i]->getNumero()<<" ";
+         fichier<< ListaParcelles[i]->getProprietaire()<<" ";
 
 
+        if ((ListaParcelles[i]->getType())=="ZA"){
+          auto za = dynamic_cast<ZA*>(ListaParcelles[i]) ;
+          fichier << za->getCulture() << "\n";
 
+        }else if((ListaParcelles[i]->getType())=="ZAU"){
+          fichier<< ListaParcelles[i]->getPConstruct()<<"\n";
 
+        }else if((ListaParcelles[i]->getType())=="ZN"){
+          fichier<<"\n";
+         
+        }else if((ListaParcelles[i]->getType())=="ZU"){
+          fichier<< ListaParcelles[i]->getPConstruct()<<" ";
+          auto zu = dynamic_cast<ZU*>(ListaParcelles[i]) ;
+          fichier << zu->getPContruite() << "\n";
+         
+        }
+        fichier<< ListaParcelles[i]->getForme()<<"\n";
+     }
+        // Fermer le fichier
+        fichier.close(); 
+    } else {
+        cerr << "Impossible d'ouvrir le fichier !" << endl;
+    }
+}
+
+void Carte::ImportParcelle(string type ,int numero, string proprietaire, int pConstructible , int surfaceConstruite, string typeCulture, string ListeDePoint ){
+string phrase = "";
+vector<Point2D<int>> points ;
+vector<string> mots = extraireMots(ListeDePoint);
+for(int i=0;i<mots.size();i++){
+    int x = 0; 
+    int y = 0;
+    mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
+  // Trouver la position du ';'
+    size_t posPointVirgule = mots[i].find(';');
+      // Extraire les parties avant et après le ';'
+    string avantStr = mots[i].substr(0, posPointVirgule);
+    string apresStr = mots[i].substr(posPointVirgule + 1);
+      // Convertir les chaînes en entiers
+    x = stoi(avantStr);
+    y = stoi(apresStr);
+    points.push_back(Point2D<int>(x,y));
+    
+  }
+
+  if(type == "ZA"){
+    Polygone<int> poly = Polygone<int>(points);
+    ZA* parcelle = new ZA( numero, proprietaire, poly , typeCulture);
+    ListaParcelles.push_back(parcelle);
+    
+
+  }else if(type == "ZAU"){
+    Polygone<int> poly = Polygone<int>(points);
+    ZAU* parcelle = new ZAU( numero, proprietaire, poly , pConstructible);
+    ListaParcelles.push_back(parcelle);
+    
+
+  }
+  else if(type == "ZN"){
+    Polygone<int> poly = Polygone<int>(points);
+    ZN* parcelle = new ZN( numero, proprietaire, poly,-1);
+    ListaParcelles.push_back(parcelle);
+    
+
+  }else if(type == "ZU"){
+    Polygone<int> poly = Polygone<int>(points);
+    ZU* parcelle = new ZU( numero, proprietaire, poly , pConstructible, surfaceConstruite);
+    ListaParcelles.push_back(parcelle);
+    
+
+  }
+
+}
 
 
