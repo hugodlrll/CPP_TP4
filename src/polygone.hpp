@@ -121,7 +121,7 @@ void Polygone<T>::translate(T x, T y) {
  * @return ostream& Flux de sortie
  */
 template <typename T>
-ostream& operator<<(ostream& os,Polygone<T> & p) {
+ostream& operator<<(ostream& os, Polygone<T> & p) {
     for(typename vector<Point2D<T>>::iterator it = p.getSommets().begin(); it != p.getSommets().end(); it++)
     {
         os << "[" << it->getX() << "," << it->getY() << "] ";

@@ -1,24 +1,101 @@
-#include "Carte.h"
-#include "point2D.hpp"
-#include <iostream>
-#include <string>
-#include <vector>
-#include <sstream> // Pour utiliser istringstream
+/**
+ * @file carte.cpp
+ * @author DELARUELLE Hugo DEPEYRIS Julien DARGERE Lucas LAVAUX Bastien
+ * @brief Description de la classe Carte
+ * @version 0.1
+ * @date 2024-11-27
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+#include "carte.hpp"
 
-using namespace std;
+/**
+ * @brief Constructeur par défaut de la classe Carte
+ * 
+ */
+Carte::Carte() {}
 
-string readFileIntoString(const string& path) {
-  string  content;
-    ifstream input_file(path);
-    if (!input_file.is_open()) {
-        cerr << "Could not open the file - '"
-             << path << "'" << endl;
-        exit(EXIT_FAILURE);
-    }
-    content = string((std::istreambuf_iterator<char>(input_file)), std::istreambuf_iterator<char>());
-    input_file.close();
-  //cout << content<<endl;
-  return content;
+/**
+ * @brief Constructeur de la classe Carte
+ * 
+ * @param listeParcelles Liste des parcelles de la carte
+ */
+Carte::Carte(vector<Parcelle*>& listeParcelles) : listeParcelles(listeParcelles) {}
+
+/**
+ * @brief Constructeur de copie
+ * 
+ * @param carte Carte à copier
+ */
+Carte::Carte(Carte & carte) : surfaceTotale(carte.surfaceTotale), listeParcelles(carte.listeParcelles) {}
+
+/**
+ * @brief Accesseur de la liste des parcelles
+ * 
+ * @return vector<Parcelle>& Liste des parcelles 
+ */
+vector<Parcelle*>& Carte::getListeParcelles() {
+  return this->listeParcelles ;
+}
+
+/**
+ * @brief Setter de la liste des parcelles
+ * 
+ * @param listeParcelle Liste des parcelles
+ */
+void Carte::setListeParcelles(vector<Parcelle*>& listeParcelle) {
+  this->listeParcelles = listeParcelle ;
+}
+
+/**
+ * @brief Importe une carte depuis un fichier
+ * 
+ * @param path Chemin du fichier
+ */
+void importCarte(std::string path) {
+
+} 
+
+/**
+ * @brief Exporte une carte dans un fichier
+ * 
+ * @param path Chemin du fichier
+ */
+void exportCarte(std::string path) {
+
+}
+
+/**
+ * @brief Ajoute une parcelle à la carte
+ * 
+ * @param parc Parcelle à ajouter
+ */
+void addParcelle(Parcelle & parc) {
+
+}
+
+/**
+ * @brief Supprime une parcelle de la carte
+ * 
+ * @param parc Parcelle à supprimer
+ */
+void delParcelle(Parcelle & parc) {
+
+}
+
+/**
+ * @brief Surcharge de l'opérateur << pour afficher la carte
+ * 
+ * @param os Flux de sortie
+ * @param carte Carte à afficher 
+ * @return ostream&  Flux de sortie
+ */
+ostream& operator<<(ostream& os, Carte& carte) {
+  for(vector<Parcelle*>::iterator it = carte.getListeParcelles().begin(); it!= carte.getListeParcelles().end(); it++) {
+    os << *it << endl;
+  }
+  return os;
 }
 
 
@@ -51,10 +128,10 @@ void ImporZU (string data){
     int y = 0;
     mots[i] = mots[i].substr(1, mots[i].size() - 2); // Enlève '[' et ']'
 
-  // Trouver la position du ';'
+    // Trouver la position du ';'
     size_t posPointVirgule = mots[i].find(';');
   
-      // Extraire les parties avant et après le ';'
+    // Extraire les parties avant et après le ';'
     string avantStr = mots[i].substr(0, posPointVirgule);
     string apresStr = mots[i].substr(posPointVirgule + 1);
 
@@ -63,19 +140,7 @@ void ImporZU (string data){
     y = stoi(apresStr);
     
     points.push_back(Point2D<int>(x,y)); 
-  }
-  
-
-     
-      
-  
- 
-  cout << Zone<<endl;
-  cout << Numéro<<endl;
-  cout << Propriétaire<<endl;
-  cout << pConstructible<<endl;
-  cout << surfaceConstruite<<endl;
-  
+  }  
 }
 
 void ImporZAU (string data){
@@ -134,8 +199,6 @@ void separateur(string data){
             }else if (Zone=="ZN"){
               ImporZN(phrase);
             }
-
-            
           cout << ""<<endl;
           line = 0 ;
           phrase = "";
@@ -151,10 +214,7 @@ void separateur(string data){
 
 
 
-Carte::Carte(string path){
-  string text= readFileIntoString(path);
-  separateur(text);
-}
+
 
 
 
