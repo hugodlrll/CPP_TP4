@@ -7,7 +7,6 @@ set(SOURCES
     ../src/ZU.cpp
     ../src/ZAU.cpp
     ../src/carte.cpp
-    ../src/utilitaire.cpp
 )
 
 set(HEADERS
@@ -20,7 +19,6 @@ set(HEADERS
     ../src/ZU.hpp
     ../src/ZAU.hpp
     ../src/carte.hpp
-    ../src/utilitaire.hpp
 )
 
 # Créer l'exécutable
